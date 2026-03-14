@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tienda Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 10px;
+    }
+    .producto {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+    .producto img {
+      max-width: 100%;
+      height: auto;
+    }
+    @media (max-width: 600px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 en 2 en teléfono */
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Lista de Productos</h1>
+  <div class="grid" id="productos"></div>
+
+  <script>
+    // Lista de productos con precios
+    const productos = [
+      { id: 1, nombre: "Espagueti", precio: 130, foto: "https://via.placeholder.com/150" },
+      { id: 2, nombre: "Arroz", precio: 216, foto: "https://via.placeholder.com/150" },
+      { id: 3, nombre: "Harina", precio: 239, foto: "https://via.placeholder.com/150" },
+      { id: 4, nombre: "Harina de trigo", precio: 70, foto: "https://via.placeholder.com/150" },
+      { id: 5, nombre: "Mortadela", precio: 665, foto: "https://via.placeholder.com/150" },
+      { id: 6, nombre: "Huevos", precio: 190, foto: "https://via.placeholder.com/150" },
+      { id: 7, nombre: "Queso", precio: 490, foto: "https://via.placeholder.com/150" },
+      { id: 8, nombre: "Margarina", precio: 180, foto: "https://via.placeholder.com/150" },
+      { id: 9, nombre: "Aceite", precio: 665, foto: "https://via.placeholder.com/150" },
+      { id: 10, nombre: "Sardina", precio: 39, foto: "https://via.placeholder.com/150" },
+      { id: 11, nombre: "Caraota", precio: 430, foto: "https://via.placeholder.com/150" },
+      { id: 12, nombre: "Carne", precio: 1200, foto: "https://via.placeholder.com/150" },
+      { id: 13, nombre: "Jabón baño", precio: 53, foto: "https://via.placeholder.com/150" },
+      { id: 14, nombre: "Jabón líquido", precio: 210, foto: "https://via.placeholder.com/150" },
+      { id: 15, nombre: "Papel higiénico", precio: 84, foto: "https://via.placeholder.com/150" },
+      { id: 16, nombre: "Champú", precio: 135, foto: "https://via.placeholder.com/150" },
+      { id: 17, nombre: "Desodorante", precio: 210, foto: "https://via.placeholder.com/150" },
+      { id: 18, nombre: "Crema dental", precio: 78, foto: "https://via.placeholder.com/150" },
+      { id: 19, nombre: "Crema de manos", precio: 60, foto: "https://via.placeholder.com/150" },
+      { id: 20, nombre: "Aliños (cebolla, tomate, ají, pimentón, papa, zanahoria)", precio: 300, foto: "https://via.placeholder.com/150" },
+      { id: 21, nombre: "Plátanos", precio: 100, foto: "https://via.placeholder.com/150" },
+      { id: 22, nombre: "Sal", precio: 0, foto: "https://via.placeholder.com/150" },
+      { id: 23, nombre: "Azúcar", precio: 317, foto: "https://via.placeholder.com/150" },
+      { id: 24, nombre: "Esponja", precio: 45, foto: "https://via.placeholder.com/150" },
+      { id: 25, nombre: "Crema de manos (otra)", precio: 230, foto: "https://via.placeholder.com/150" },
+      { id: 26, nombre: "Salsa soya China", precio: 190, foto: "https://via.placeholder.com/150" },
+      { id: 27, nombre: "Avena", precio: 450, foto: "https://via.placeholder.com/150" }
+    ];
+
+    // Clave autorizada
+    const claveAutorizada = "291029";
+
+    // Renderizar productos
+    function mostrarProductos() {
+      const contenedor = document.getElementById("productos");
+      contenedor.innerHTML = "";
+      productos.forEach(p => {
+        const div = document.createElement("div");
+        div.className = "producto";
+        div.innerHTML = `
+          <img src="${p.foto}" alt="${p.nombre}">
+          <h3>${p.nombre}</h3>
+          <p>Precio: Bs <span id="precio-${p.id}">${p.precio}</span></p>
+          <button onclick="cambiarPrecio(${p.id})">Cambiar precio</button>
+        `;
+        contenedor.appendChild(div);
+      });
+    }
+
+    // Cambiar precio solo si la clave es correcta
+    function cambiarPrecio(id) {
+      const clave = prompt("Ingrese la clave de autorización:");
+      if (clave === claveAutorizada) {
+        const nuevoPrecio = prompt("Nuevo precio:");
+        if (nuevoPrecio && !isNaN(nuevoPrecio)) {
+          productos.find(p => p.id === id).precio = nuevoPrecio;
+          document.getElementById(`precio-${id}`).textContent = nuevoPrecio;
+        }
+      } else {
+        alert("Clave incorrecta. No está autorizado para cambiar precios.");
+      }
+    }
+
+    mostrarProductos();
+  </script>
+</body>
+</html>
